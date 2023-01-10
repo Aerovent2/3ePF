@@ -63,8 +63,8 @@ router.get('/registerError',  (req,res)=>{
 })
 
 router.get('/user',auth, (req,res)=>{
-    let cart = null
-    if(req.user.carts.length>0)cart  =req.user.carts
+    let cart =req.user.carts
+    if(cart.length<1)cart=null
     //falta manejar mas de 1 carrito
     res.send({usuario:req.user.username,admin:req.user.admin,foto:req.user.photo,cart})
 }) 

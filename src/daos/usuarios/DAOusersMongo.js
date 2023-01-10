@@ -22,7 +22,6 @@ import logguer from '../../logs/logger.js';
      register =async (req,username,password, done)=>{
         try{
             const {email,address,age,phone}=req.body
-            console.log(this)
             let photo= "/avatar.jpg"
             if(req.file.path !== undefined){
                 photo =req.file.filename
@@ -72,7 +71,7 @@ import logguer from '../../logs/logger.js';
         }catch(err){
             logguer.error(`hubo un error al agregar carrito al usuario  ${err}`)
         }
-    }
+    } 
 }
  
 

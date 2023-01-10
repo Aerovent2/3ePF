@@ -2,7 +2,7 @@ import  express from "express"
 import {Server as HTTPServer} from "http"
 import session from "express-session"
 import * as dotenv from 'dotenv'
-import ParseArgs from 'minimist'
+import {cpus} from "os"
 import cluster from "cluster"
 import mongoose from "mongoose"
 
@@ -15,14 +15,15 @@ import sessionOptions from "./src/sessions/session.js"
 import passport from "./src/sessions/passport.js"
 import logger from "./src/logs/logger.js"
 
-let{modo}=ParseArgs(process.argv.slice(2))
+dotenv.config()
+let modo=process.env.MODO
+console.error(modo)
 const PORT = process.env.PORT|| 8081
 
 mongoose.connect(config.mongoDB.uri, config.mongoDB.options)
 
 const serverExpress = ()=>{
-    dotenv.config()
-
+    
     const app = express()
     const httpServer= new HTTPServer(app)
   
@@ -55,7 +56,7 @@ const serverExpress = ()=>{
 
     if(modo === 'cluster'){
         if(cluster.isPrimary){
-            for(let i =0; i<3/* cpus().length */;i++){// Si le pongo todos los nucleos me crashea mongo atlas
+            for(let i =0; i<3 ;i++){// si le pongo cpus.lenght me crashea mongo atlas
                 cluster.fork()
             }
             logger.info(`primary pid ${process.pid}`)

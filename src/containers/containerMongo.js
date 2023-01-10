@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import logguer from "../logs/logger"
+import logguer from "../logs/logger.js"
 
 
 class Contenedor {

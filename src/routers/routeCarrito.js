@@ -8,9 +8,10 @@ const routerCarrito=Router()
 import daos from '../daos/index.js'
 
 
-const {addCart}= daos.DAOusers
+
 const dbCarrito= daos.DAOcarritos
 const DB = daos.DAOproductos
+const {addCart} =daos.DAOusers
 
 
 
@@ -20,7 +21,7 @@ routerCarrito.get('/:id/productos',auth,async (req,res)=>{//
         const data = await dbCarrito.getById(id)
         if(data){
             logguer.info(`lista de productos en el carrito enviada `)
-           res.status(200).send(data)  
+           res.status(200).send(data.productos)  
         }else{
             logguer.warn(`carrito no encontrado `)
             res.status(404).send({error:'carrito no encontrado'})
@@ -33,10 +34,10 @@ routerCarrito.get('/:id/productos',auth,async (req,res)=>{//
 
 routerCarrito.post('/', auth,async(req,res)=>{//
     try{
-        const data = await dbCarrito.save()
-        const idCarrito=data
         const idUser = req.user._id
+        const idCarrito= await dbCarrito.save()
         addCart(idCarrito,idUser)
+        req.user.carts= idCarrito
         logguer.info(`se creo un nuevo carrito id ${idCarrito} para el usuario ${idUser} `)
         res.send({idCarrito})
     }catch(err){
@@ -93,6 +94,7 @@ routerCarrito.delete('/:id',auth, async(req,res)=>{//
     const data = await dbCarrito.deleteById(id)
     if(data){
         logguer.info(` carrito ${id} eliminado `)
+        req.user.carts=null
         res.status(200).send(data)
     }else{
         logguer.warn(` carrito ${id} no se elimino `)

@@ -8,8 +8,7 @@ class DAOproductosMongo extends Contenedor{
             codigo: { type: String, required: true, unique: true },
             url:{type: String, required: true},
             precio:{type: Number, required: true},
-            stock:{type: Number, required: true},
-            cant:{type: Number, required: false, default:0}
+            stock:{type: Number, required: true}
         })
     }
 

@@ -48,7 +48,6 @@ const viewCarrito= `
 
 <div class="container mt-3">
 <h1>View Carrito</h1>
-{{#if productos}}
 <table  id="tablaCarrito" class="table table-primary" align="center">
     <thead>
         <tr class="table-dark">
@@ -58,12 +57,12 @@ const viewCarrito= `
             <th>Acciones</th>
         </tr>
     </thead>
-    {{#each productos}}
+    {{#each carrito}}
         <tr> 
-            <td class="table-info">{{this.nombre}}</td>
+            <td class="table-info">{{this.producto.nombre}}</td>
             <td class="table-success"> {{this.cant}}</td>
-            <td class="table-success"> {{this.precio}}</td>
-            <td class="table-danger"><button  id="{{this._id}}" class="btn btn-danger comprar">Quitar del Carrito</button></td>
+            <td class="table-success"> {{this.producto.precio}}</td>
+            <td class="table-danger"><button  id="{{this.producto._id}}" class="btn btn-danger comprar">Quitar uno del Carrito</button></td>
         </tr>
     {{/each}}
 </table>
@@ -71,11 +70,6 @@ const viewCarrito= `
     <button  id="finalizarCompra" class="btn btn-info comprar">Finalizar Compra</button>
     <button  id="eliminarCarrito" class="btn btn-danger comprar">Borrar Carrito</button>
   </div>
-{{else}}
-<p>No hay productos cargados</p>
-
-{{/if}}
-
 
 `
 
@@ -112,7 +106,7 @@ const botonesAgregar =()=>{
         },
         body: JSON.stringify({ idProducto: idProducto })
       }).then(res => {
-        if(res.status!==200) alert('Ocurrio un error al agregar el item')
+        if(res.status!==200) console.log('Ocurrio un error al agregar el item')
       });  
     },false)
   }
@@ -143,12 +137,12 @@ const botonVaciar =()=>{
   document.getElementById('eliminarCarrito')
   .addEventListener('click',(e)=>{
     e.preventDefault()
-    console.log
+    
     fetch(`/api/carrito/${idCarrito}`, {
       method: "DELETE"
     }).then(res => {
     if(res.status!==200) console.error('Ocurrio un error al borrar el Carrito')
-    window.location.href = "/logout";})
+    window.location.href = "/";})
   })}
 
 
@@ -169,7 +163,7 @@ fetch('/user')
   saludo.innerText="Bienvenido "+ res.usuario
   usuario=res.usuario
   imagen.setAttribute('src',res.foto)
-  
+  console.warn(res)
   if(!res.cart){
     idCarrito=fetch(`/api/carrito`, {
       method: "POST", 
@@ -199,10 +193,8 @@ const mostrarCarrito=()=>{
   .then((response)=>response.json())
   .then((json)=>{
     const carrito = Object.assign({}, json)
-    const productos= carrito.productos
-    
     const prodController= Handlebars.compile(viewCarrito)
-    const prodHtml =prodController({productos})
+    const prodHtml =prodController({carrito})
     document.getElementById('divProductos').innerHTML = prodHtml
     //let finalizar = document.getElementById('finalizarCompra')
     botonesQuitar()
