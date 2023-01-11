@@ -4,3 +4,4 @@
 [2023-01-11T10:00:18.465] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
 [2023-01-11T10:03:22.543] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
 [2023-01-11T10:06:02.315] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
+[2023-01-11T11:03:10.605] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'username')
