@@ -3,8 +3,9 @@ import express from 'express'
 import url from 'url'
 import { join } from 'path'
 import { cpus } from "os"
-import passport from '../sessions/passport.js'
 import multer from 'multer'
+
+import passport from '../sessions/passport.js'
 import { auth } from '../sessions/authMiddlewares.js'
 import logger from "../logs/logger.js"
 import daos from '../daos/index.js'
@@ -83,9 +84,7 @@ router.get('/user', auth, (req, res) => {
             }
             res.send({ usuario: req.user.username, admin: req.user.admin, foto: req.user.photo, cart })
         })()
-
     }
-    
 })
 
 const cpu = cpus()

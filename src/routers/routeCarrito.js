@@ -1,19 +1,16 @@
 import express from 'express'
+
 import { auth } from '../sessions/authMiddlewares.js'
 import logguer from '../logs/logger.js'
+
 const {Router}= express
 const routerCarrito=Router()
 
-
 import daos from '../daos/index.js'
-
-
 
 const dbCarrito= daos.DAOcarritos
 const DB = daos.DAOproductos
 const {addCart} =daos.DAOusers
-
-
 
 routerCarrito.get('/:id/productos',auth,async (req,res)=>{//
     try{

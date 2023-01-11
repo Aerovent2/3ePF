@@ -1,5 +1,6 @@
 import twilio from 'twilio'
 import * as dotenv from 'dotenv'
+
 import logguer from '../logs/logger.js'
 
 dotenv.config()
@@ -8,8 +9,6 @@ const accountSID = "AC2a3588b32cf95b303774454294f9cf5e"
 const authToken = process.env.TWILIO_TOKEN
 const num = process.env.TWILIO_NUM
 const client = twilio(accountSID, authToken)
-
-
 
 function sms(datos) {
 
@@ -66,7 +65,7 @@ async function whatsapp(datos) {
         TOTAL COMPRA:$ ${total}
         //////////////////////////////////////////////////////////////////
         `
-   
+
     const enviarWhatsapp = async () => {
         try {
             await client.messages.create(

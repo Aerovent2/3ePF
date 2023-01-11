@@ -18,12 +18,10 @@ class DAOcarritosMongo extends Contenedor {
             const carritoPrevio = await super.getById(idCarrito)
             let prod = carritoPrevio.productos
             if (prod.hasOwnProperty(producto._id)) {
-                console.log('aumenta cantidad')
                 let cant = prod[producto._id].cant + 1
                 let nuevo = { producto, cant }
                 prod[producto._id] = nuevo
             } else {
-                console.log('agregado por primera vez')
                 let nuevo = { producto, cant: 1 }
                 prod[producto._id] = nuevo
             }
@@ -69,7 +67,7 @@ class DAOcarritosMongo extends Contenedor {
             const resutl = await this.db.updateOne({ _id: idCarrito }, { finished: true })
             if (resutl.modifiedCount === 1) {
                 correo('pedido', { productos: prod, usuario: user })
-                sms({ id:idCarrito,usuario:user })
+                sms({ id: idCarrito, usuario: user })
                 whatsapp({ productos: prod, usuario: user })
                 logguer.info(`compra del carrito ${idCarrito} finalizada `)
                 return carritoPrevio
@@ -80,7 +78,6 @@ class DAOcarritosMongo extends Contenedor {
         } catch (err) {
             logguer.error(`hubo un error al finalizr compra: ${err}`)
         }
-
     }
 }
 

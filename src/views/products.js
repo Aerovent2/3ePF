@@ -1,8 +1,4 @@
 
-
-
-
-
 const view= `
 <div class="container  mt-3">
         <h1>Cargar Nuevo Producto</h1>

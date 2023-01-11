@@ -1,17 +1,17 @@
-import {createTransport} from "nodemailer"
-import logguer from "../logs/logger.js"
+import { createTransport } from "nodemailer"
 import * as dotenv from 'dotenv'
+
+import logguer from "../logs/logger.js"
 
 dotenv.config()
 
-function correo(tipo,datos){
-    let destinatario,subject,html
-    
+function correo(tipo, datos) {
+    let destinatario, subject, html
 
-    if(tipo=='registro'){
-        destinatario=process.env.MAIL_ADMIN
-        subject='Nuevo Registro'
-        html=`Nuevo Registro con id ${datos._id} 
+    if (tipo == 'registro') {
+        destinatario = process.env.MAIL_ADMIN
+        subject = 'Nuevo Registro'
+        html = `Nuevo Registro con id ${datos._id} 
         Nombre:${datos.username}
         Nº Telefono: ${datos.phone}
         Direccion: ${datos.address}
@@ -19,17 +19,17 @@ function correo(tipo,datos){
         `
         logguer.info('Mail de registro enviado')
         console.log(html)
-       // enviar()
+        // enviar()
     }
 
-    if(tipo=='pedido'){
-        destinatario=process.env.MAIL_ADMIN
-        subject=`Nuevo pedido de ${datos.usuario.username}`
+    if (tipo == 'pedido') {
+        destinatario = process.env.MAIL_ADMIN
+        subject = `Nuevo pedido de ${datos.usuario.username}`
         let productos = datos.productos
-        let comprados =``
-        let total =0
+        let comprados = ``
+        let total = 0
         Object.entries(productos).forEach(([key, value]) => {
-            comprados= comprados +`
+            comprados = comprados + `
             Item:${value.producto.nombre}
             Precio Unitario:$ ${value.producto.precio} 
             Cantidad:${value.cant}
@@ -37,11 +37,11 @@ function correo(tipo,datos){
 
             -------------------------------
             `
-            total= total +(value.producto.precio * value.cant)
-          });
+            total = total + (value.producto.precio * value.cant)
+        });
 
-  
-        html=` 
+
+        html = ` 
         Nombre:${datos.usuario.username}
         Email: ${datos.usuario.email}
         Detalle de la Compra:
@@ -55,11 +55,8 @@ function correo(tipo,datos){
         //enviar()
     }
 
-
-    
-
-    const enviar= async()=>{
-        const transporter= createTransport({
+    const enviar = async () => {
+        const transporter = createTransport({
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
@@ -75,14 +72,14 @@ function correo(tipo,datos){
             html
         })
 
-        try{
-        const info = await transporter.sendMail(opts)
-        logguer.info(info)
-    }catch(err){
-        logguer.error(`error al enviar mail ${err}`)
+        try {
+            const info = await transporter.sendMail(opts)
+            logguer.info(info)
+        } catch (err) {
+            logguer.error(`error al enviar mail ${err}`)
+        }
     }
-    }
-    
+
 }
 
 export default correo
