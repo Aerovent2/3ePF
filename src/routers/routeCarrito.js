@@ -32,6 +32,19 @@ routerCarrito.get('/:id/productos',auth,async (req,res)=>{//
     }
 })
 
+routerCarrito.post('/:id/finalizar',auth,async (req,res)=>{//
+    try{
+        const {id}=req.params
+        const user=req.user
+        const resp= await dbCarrito.finalizarCompra(id,user)
+        logguer.info(`compra finalizada `)
+        res.status(200).send(resp)  
+    }catch(err){
+        logguer.error(`error al finalizar compra ${err} `)
+        res.status(404).send({error:err})
+    }
+})
+
 routerCarrito.post('/', auth,async(req,res)=>{//
     try{
         const idUser = req.user._id

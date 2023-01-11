@@ -106,7 +106,7 @@ const botonesAgregar =()=>{
         },
         body: JSON.stringify({ idProducto: idProducto })
       }).then(res => {
-        if(res.status!==200) console.log('Ocurrio un error al agregar el item')
+        if(res.status!==200) console.error('Ocurrio un error al agregar el item')
       });  
     },false)
   }
@@ -145,6 +145,19 @@ const botonVaciar =()=>{
     window.location.href = "/";})
   })}
 
+  const botonCompra =()=>{
+    document.getElementById('finalizarCompra')
+    .addEventListener('click',(e)=>{
+      e.preventDefault()
+      
+      fetch(`/api/carrito/${idCarrito}/finalizar`, {
+        method: "POST"
+      }).then(res => {
+      if(res.status!==200) console.error('Ocurrio un error al Finalizar Compra')
+      window.location.href = "/";})
+    })}
+
+
 
 salir.addEventListener('click',(e)=>{
   e.preventDefault();
@@ -163,7 +176,7 @@ fetch('/user')
   saludo.innerText="Bienvenido "+ res.usuario
   usuario=res.usuario
   imagen.setAttribute('src',res.foto)
-  console.warn(res)
+  
   if(!res.cart){
     idCarrito=fetch(`/api/carrito`, {
       method: "POST", 
@@ -196,7 +209,7 @@ const mostrarCarrito=()=>{
     const prodController= Handlebars.compile(viewCarrito)
     const prodHtml =prodController({carrito})
     document.getElementById('divProductos').innerHTML = prodHtml
-    //let finalizar = document.getElementById('finalizarCompra')
+    botonCompra()
     botonesQuitar()
     botonVaciar()
   }); 

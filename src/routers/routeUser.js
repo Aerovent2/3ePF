@@ -63,9 +63,19 @@ router.get('/registerError',  (req,res)=>{
 })
 
 router.get('/user',auth, (req,res)=>{
-    let cart =req.user.carts
-    if(cart.length<1)cart=null
-    //falta manejar mas de 1 carrito
+    let carts =req.user.carts
+    let cart = null
+    if(carts.length<1)cart=null
+    else{
+        console.log('si habia carritos')
+        for(let i =0;i<carts.length;i++){
+            if(carts[i].finished === false){
+              cart =carts[i]  
+              console.log(carts[i])
+            } 
+        }
+    }
+    
     res.send({usuario:req.user.username,admin:req.user.admin,foto:req.user.photo,cart})
 }) 
 

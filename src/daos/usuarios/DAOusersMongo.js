@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-
+import correo from '../../messaging/nodemailer.js';
 import Contenedor from "../../containers/containerMongo.js";
 import logguer from '../../logs/logger.js';
 
@@ -31,6 +31,7 @@ import logguer from '../../logs/logger.js';
                 let hashPass= bcrypt.hashSync(password,bcrypt.genSaltSync(10))
                 const newUser =await this.db.create({username,password:hashPass,email,address,age,phone,photo,carts:[]})
                 logguer.info(`nuevo usuario registrado `)
+                correo('registro',newUser)
                 done(null,newUser)
         }
         catch(err){

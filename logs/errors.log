@@ -1,0 +1,6 @@
+[2023-01-11T09:34:50.448] [ERROR] default - hubo un error al buscar por id : CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carritos"
+[2023-01-11T09:55:51.598] [ERROR] default - hubo un error al borrar finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
+[2023-01-11T09:58:43.151] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
+[2023-01-11T10:00:18.465] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
+[2023-01-11T10:03:22.543] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
+[2023-01-11T10:06:02.315] [ERROR] default - hubo un error al finalizr compra: TypeError: Cannot read properties of undefined (reading 'nombre')
